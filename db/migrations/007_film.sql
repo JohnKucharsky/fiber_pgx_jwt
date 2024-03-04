@@ -2,7 +2,7 @@
 create type mpaa_rating as enum ('G', 'PG', 'PG-13','R', 'NC17');
 create table film(
      id serial primary key,
-     title varchar(225) not null,
+     title varchar(225) unique not null,
      description text,
      release_year smallint,
      language_id smallint not null references language(id) on update cascade on delete restrict,
@@ -14,9 +14,10 @@ create table film(
      updated_at timestamptz not null default now()
 );
 create table film_actor(
-    actor_id smallint references actor(id) on update cascade on delete restrict not null,
-    film_id smallint references film(id) on update cascade on delete restrict  not null,
-    updated_at timestamptz not null default now()
+    actor_id smallint not null references actor(id) on update cascade on delete restrict,
+    film_id smallint not null references film(id) on update cascade on delete restrict,
+    updated_at timestamptz not null default now(),
+    primary key (actor_id,film_id)
 );
 
 -- +goose Down

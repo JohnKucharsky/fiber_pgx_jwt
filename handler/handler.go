@@ -9,6 +9,7 @@ type Handler struct {
 	actorStore   domain.ActorStore
 	countryStore domain.CountryStore
 	cityStore    domain.CityStore
+	addressStore domain.AddressStore
 }
 
 func NewHandler(
@@ -16,11 +17,13 @@ func NewHandler(
 	as domain.ActorStore,
 	cs domain.CountryStore,
 	cityStore domain.CityStore,
+	addressStore domain.AddressStore,
 ) *Handler {
 	return &Handler{
 		userStore:    us,
 		actorStore:   as,
 		countryStore: cs,
 		cityStore:    cityStore,
+		addressStore: addressStore,
 	}
 }
