@@ -11,7 +11,8 @@ import (
 func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	us := store.NewUserStore(db, redis)
 	as := store.NewActorStore(db)
-	h := handler.NewHandler(us, as)
+	cs := store.NewCountryStore(db)
+	h := handler.NewHandler(us, as, cs)
 
 	v1 := r.Group("/api")
 
@@ -31,4 +32,14 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	actor.Get("/:id", h.GetOneActor)
 	actor.Put("/:id", h.UpdateActor)
 	actor.Delete("/:id", h.DeleteActor)
+	// end actor
+
+	// country
+	country := v1.Group("/country")
+	country.Post("/", h.CreateCountry)
+	country.Get("/", h.GetCountries)
+	country.Get("/:id", h.GetOneCountry)
+	country.Put("/:id", h.UpdateCountry)
+	country.Delete("/:id", h.DeleteCountry)
+	// end country
 }

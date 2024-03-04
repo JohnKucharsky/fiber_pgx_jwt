@@ -5,16 +5,19 @@ import (
 )
 
 type Handler struct {
-	userStore  domain.AuthStore
-	actorStore domain.ActorStore
+	userStore    domain.AuthStore
+	actorStore   domain.ActorStore
+	countryStore domain.CountryStore
 }
 
 func NewHandler(
 	us domain.AuthStore,
 	as domain.ActorStore,
+	cs domain.CountryStore,
 ) *Handler {
 	return &Handler{
-		userStore:  us,
-		actorStore: as,
+		userStore:    us,
+		actorStore:   as,
+		countryStore: cs,
 	}
 }
