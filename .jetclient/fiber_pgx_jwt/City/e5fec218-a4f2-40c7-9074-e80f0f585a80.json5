@@ -1,14 +1,14 @@
 {
-  id : "11961ad5-b473-48ef-9d55-612c314e043c",
-  name : "Country",
+  id : "e5fec218-a4f2-40c7-9074-e80f0f585a80",
+  name : "City",
   icon : "FOLDER",
-  sortWeight : 4000000,
+  sortWeight : 5000000,
   requests : [
     {
-      id : "a95f75c9-821f-4f6d-a2e4-30ddf949f06e",
+      id : "79ec6f9e-6e81-4144-a7e5-476961bc241b",
       name : "Create",
       method : "POST",
-      url : "{{host}}/country",
+      url : "{{host}}/city",
       headers : [
         {
           key : "Content-Type",
@@ -18,27 +18,28 @@
       body : {
         type : "JSON",
         raw : '{\
-  "country": "first"\
+  "city": "firssst",\
+  "country_id": 1\
 }'
       }
     },
     {
-      id : "f11b3a62-7938-4aef-bd3b-8bbb689242df",
+      id : "9f03b506-2020-40c2-ae5d-f350bec8b51e",
       name : "GetMany",
       method : "GET",
-      url : "{{host}}/country"
+      url : "{{host}}/city"
     },
     {
-      id : "1b98fec1-39d5-41dd-801b-e6d9d3af0569",
+      id : "5fba652f-c379-4b37-9729-f82cc4ed9ce4",
       name : "GetOne",
       method : "GET",
-      url : "{{host}}/country/6"
+      url : "{{host}}/city/4"
     },
     {
-      id : "7b48df0e-27af-43e5-8366-1fec515706c3",
+      id : "5b0efec4-9bb7-4cc7-9c83-a7974407f06c",
       name : "Update",
       method : "PUT",
-      url : "{{host}}/country/5",
+      url : "{{host}}/city/1",
       headers : [
         {
           key : "Content-Type",
@@ -48,15 +49,16 @@
       body : {
         type : "JSON",
         raw : '{\
-  "country": "Russia"\
+  "city": "Kras",\
+  "country_id": 4\
 }'
       }
     },
     {
-      id : "e1086887-5aa2-49a7-918d-145c9ccc3e26",
+      id : "e9838412-b9c2-4459-938e-9cf42ef70680",
       name : "Delete",
       method : "DELETE",
-      url : "{{host}}/country/1"
+      url : "{{host}}/city/2"
     }
   ]
 }
