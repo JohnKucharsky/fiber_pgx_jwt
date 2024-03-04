@@ -4,8 +4,7 @@ create table users(
       name varchar not null,
       email varchar unique not null,
       password varchar not null,
-      created_at timestamptz not null,
-      updated_at timestamptz not null
+      updated_at timestamptz not null default now()
 );
 
 -- +goose Down

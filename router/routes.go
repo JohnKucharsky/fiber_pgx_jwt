@@ -10,7 +10,8 @@ import (
 
 func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	us := store.NewUserStore(db, redis)
-	h := handler.NewHandler(us)
+	as := store.NewActorStore(db)
+	h := handler.NewHandler(us, as)
 
 	v1 := r.Group("/api")
 
@@ -20,7 +21,14 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	auth.Post("/login", h.SignIn)
 	auth.Get("/logout", h.DeserializeUser, h.LogoutUser)
 	auth.Get("/refresh", h.RefreshAccessToken)
-	auth.Get("/users/me", h.DeserializeUser, h.GetMe)
+	auth.Get("/me", h.DeserializeUser, h.GetMe)
 	// end auth
 
+	// actor
+	actor := v1.Group("/actor")
+	actor.Post("/", h.CreateActor)
+	actor.Get("/", h.GetActors)
+	actor.Get("/:id", h.GetOneActor)
+	actor.Put("/:id", h.UpdateActor)
+	actor.Delete("/:id", h.DeleteActor)
 }

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"errors"
-	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/matthewhartstonge/argon2"
 	"time"
@@ -22,8 +21,7 @@ type User struct {
 	ID        uuid.UUID `json:"id" db:"id"`
 	Name      string    `json:"name" db:"name"`
 	Email     string    `json:"email" db:"email"`
-	Password  string    `json:"password" db:"password"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	Password  string    `json:"-" db:"password"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
@@ -36,32 +34,6 @@ type SignUpInput struct {
 type SignInInput struct {
 	Email    string `json:"email"  validate:"required"`
 	Password string `json:"password"  validate:"required"`
-}
-
-func (r *SignUpInput) Bind(
-	c *fiber.Ctx,
-) error {
-	if err := c.BodyParser(r); err != nil {
-		return err
-	}
-	if err := NewValidator().Validate(r); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (r *SignInInput) Bind(
-	c *fiber.Ctx,
-) error {
-	if err := c.BodyParser(r); err != nil {
-		return err
-	}
-	if err := NewValidator().Validate(r); err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func (r *SignUpInput) HashPassword() error {

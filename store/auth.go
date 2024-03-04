@@ -30,16 +30,14 @@ func (us *UserStore) Create(u domain.SignUpInput) (*domain.User, error) {
 
 	rows, err := us.db.Query(
 		ctx, `
-        INSERT INTO users (id, name, email, password, created_at, updated_at)
-        VALUES (@id, @name, @email, @password, @created_at, @updated_at)
-        RETURNING id, name, email, password, created_at, updated_at`,
+        INSERT INTO users (id, name, email, password)
+        VALUES (@id, @name, @email, @password)
+        RETURNING id, name, email, password, updated_at`,
 		pgx.NamedArgs{
-			"id":         uuid.Must(uuid.NewV7()),
-			"name":       u.Name,
-			"email":      u.Email,
-			"password":   u.Password,
-			"created_at": time.Now().Local(),
-			"updated_at": time.Now().Local(),
+			"id":       uuid.Must(uuid.NewV7()),
+			"name":     u.Name,
+			"email":    u.Email,
+			"password": u.Password,
 		},
 	)
 	if err != nil {
@@ -121,10 +119,10 @@ func (us *UserStore) GetOne(email, id string) (*domain.User, error) {
 
 	var query, param string
 	if email == "" {
-		query = `select id,name,email,password,created_at,updated_at from users where id::text = @param`
+		query = `select id,name,email,password,updated_at from users where id::text = @param`
 		param = id
 	} else if id == "" {
-		query = `select id,name,email,password,created_at,updated_at from users where email = @param`
+		query = `select id,name,email,password,updated_at from users where email = @param`
 		param = email
 	} else {
 		return nil, errors.New("you have to provide either email or id to run this thing")

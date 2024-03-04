@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/JohnKucharsky/fiber_pgx_jwt/domain"
+	"github.com/JohnKucharsky/fiber_pgx_jwt/utils"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
 	"os"
@@ -12,7 +13,7 @@ import (
 
 func (h *Handler) SignUp(c *fiber.Ctx) error {
 	var req domain.SignUpInput
-	if err := req.Bind(c); err != nil {
+	if err := utils.Bind(c, &req); err != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
 	}
 
@@ -31,7 +32,7 @@ func (h *Handler) SignUp(c *fiber.Ctx) error {
 
 func (h *Handler) SignIn(c *fiber.Ctx) error {
 	var req domain.SignInInput
-	if err := req.Bind(c); err != nil {
+	if err := utils.Bind(c, &req); err != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
 	}
 
