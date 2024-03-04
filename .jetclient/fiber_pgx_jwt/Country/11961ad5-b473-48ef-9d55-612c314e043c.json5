@@ -1,0 +1,62 @@
+{
+  id : "11961ad5-b473-48ef-9d55-612c314e043c",
+  name : "Country",
+  icon : "FOLDER",
+  sortWeight : 4000000,
+  requests : [
+    {
+      id : "a95f75c9-821f-4f6d-a2e4-30ddf949f06e",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/country",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "country": "first"\
+}'
+      }
+    },
+    {
+      id : "f11b3a62-7938-4aef-bd3b-8bbb689242df",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/country"
+    },
+    {
+      id : "1b98fec1-39d5-41dd-801b-e6d9d3af0569",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/country/5"
+    },
+    {
+      id : "7b48df0e-27af-43e5-8366-1fec515706c3",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/country/5",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "country": "Russia"\
+}'
+      }
+    },
+    {
+      id : "e1086887-5aa2-49a7-918d-145c9ccc3e26",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/country/5"
+    }
+  ]
+}

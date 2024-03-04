@@ -1,0 +1,18 @@
+{
+  id : "5a601238-f90a-49c7-a153-ee9e08fb240e",
+  name : "User",
+  icon : "FOLDER",
+  sortWeight : 2000000,
+  requests : [
+    {
+      id : "d97b9be1-8f58-40eb-bcdc-039bbed1aaa5",
+      name : "Get Me",
+      description : "{{host}}/api/users/me",
+      method : "GET",
+      url : "{{host}}/auth/me",
+      auth : {
+        type : "NO_AUTH"
+      }
+    }
+  ]
+}

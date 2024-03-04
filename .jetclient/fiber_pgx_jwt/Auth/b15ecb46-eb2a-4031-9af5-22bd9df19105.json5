@@ -1,0 +1,64 @@
+{
+  id : "b15ecb46-eb2a-4031-9af5-22bd9df19105",
+  name : "Auth",
+  description : "{{host}}/api/auth/",
+  icon : "FOLDER",
+  sortWeight : 1000000,
+  requests : [
+    {
+      id : "2fa2660f-e358-4e55-8d60-32b4cecb4e39",
+      name : "Register",
+      description : "{{host}}/api/auth/register",
+      method : "POST",
+      url : "{{host}}/auth/sign-up",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+    "email": "admin@admins2.com",\
+    "name": "Admin",\
+    "password": "password123"\
+}'
+      }
+    },
+    {
+      id : "fed986f7-d6dc-499a-8800-f1311c05c458",
+      name : "Refresh Token",
+      description : "{{host}}/api/auth/refresh",
+      method : "GET",
+      url : "{{host}}/auth/refresh"
+    },
+    {
+      id : "78cfefb5-249a-44b7-8a4a-18f111598bc7",
+      name : "Logout",
+      description : "{{host}}/api/auth/logout",
+      method : "GET",
+      url : "{{host}}/auth/logout"
+    },
+    {
+      id : "36d5d822-db41-4c0b-bd06-4a0907f5981d",
+      name : "Login",
+      description : "{{host}}/api/auth/login",
+      method : "POST",
+      url : "{{host}}/auth/login",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+    "email": "admin@admins2.com",\
+    "password": "password123"\
+}'
+      }
+    }
+  ]
+}

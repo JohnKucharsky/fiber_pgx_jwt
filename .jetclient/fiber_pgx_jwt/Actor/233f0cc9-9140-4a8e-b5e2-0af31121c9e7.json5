@@ -1,0 +1,64 @@
+{
+  id : "233f0cc9-9140-4a8e-b5e2-0af31121c9e7",
+  name : "Actor",
+  icon : "FOLDER",
+  sortWeight : 3000000,
+  requests : [
+    {
+      id : "a0aad131-fc40-4548-80a2-a11a59013d2b",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/actor",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name": "first",\
+  "last_name": "lasvt"\
+}'
+      }
+    },
+    {
+      id : "5dfd524c-93b5-49b8-b84a-ffefd66a6952",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/actor"
+    },
+    {
+      id : "b819300f-75ae-42e3-941d-fb46896fc94a",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/actor/3"
+    },
+    {
+      id : "b26b3414-6857-4664-9492-947fd6cbff2a",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/actor/3",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name": "first",\
+  "last_name": "lasdvt"\
+}'
+      }
+    },
+    {
+      id : "cf2f50a3-0353-4bdf-abe1-856359734066",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/actor/3"
+    }
+  ]
+}
