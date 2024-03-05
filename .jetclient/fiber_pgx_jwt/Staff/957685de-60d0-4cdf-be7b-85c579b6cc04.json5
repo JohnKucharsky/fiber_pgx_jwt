@@ -1,0 +1,69 @@
+{
+  id : "957685de-60d0-4cdf-be7b-85c579b6cc04",
+  name : "Staff",
+  icon : "FOLDER",
+  sortWeight : 10000000,
+  requests : [
+    {
+      id : "d2239d2d-fa67-46e7-8666-af6e9a706ee8",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/staff",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name":"sdfsd",\
+  "last_name": "asdfasdf",\
+  "active":false,\
+  "username": "2002-11-13"\
+}'
+      }
+    },
+    {
+      id : "5f78ece4-6b11-4991-8f5c-616405de061a",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/staff"
+    },
+    {
+      id : "733f2b30-625a-4ce0-a56d-d9f89cddb85f",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/language/1"
+    },
+    {
+      id : "62669c82-0621-446b-8632-bcc5c6b91005",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/staff/1",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name":"sdfsd",\
+  "last_name": "asdfasdf",\
+  "active":false,\
+  "username": "2002-11-13",\
+  "address_id": 1\
+}'
+      }
+    },
+    {
+      id : "ee3b79cb-3881-484e-a6b8-343ca6128a9d",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/language/1"
+    }
+  ]
+}

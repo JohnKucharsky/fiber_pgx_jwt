@@ -1,0 +1,67 @@
+{
+  id : "a95c7ca5-1ea6-44a0-a2a9-283cde98cfbe",
+  name : "Customer",
+  icon : "FOLDER",
+  sortWeight : 9000000,
+  requests : [
+    {
+      id : "8d764b44-5bfd-4539-a818-bab71e4e0621",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/customer",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "store_id": 1,\
+  "first_name":"sdfsd",\
+  "last_name": "asdfasdf",\
+  "address_id": 1,\
+  "active":false,\
+  "create_date": "2002-11-13"\
+}'
+      }
+    },
+    {
+      id : "30c36e4b-63de-4712-b7da-538b76ee311a",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/language"
+    },
+    {
+      id : "555131a9-4a90-4ef8-a485-f393e1ed5bf3",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/customer/1"
+    },
+    {
+      id : "17f1f0d7-2640-42eb-9fa5-f29d4f185f3d",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/language/1",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "name": "Language"\
+}'
+      }
+    },
+    {
+      id : "eab4f580-41a0-49e9-b446-b36d970cc2de",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/language/1"
+    }
+  ]
+}

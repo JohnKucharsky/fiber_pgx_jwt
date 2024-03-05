@@ -18,9 +18,9 @@
       body : {
         type : "JSON",
         raw : '{\
-  "address": "dfertsdgs",\
+  "address": "dfesartsdgsds",\
   "district": "sdfg",\
-  "phone":"23es4"\
+  "phone":"23edsd4"\
 }'
       }
     },

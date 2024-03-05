@@ -15,12 +15,17 @@ func (h *Handler) CreateAddress(c *fiber.Ctx) error {
 	}
 	fmt.Println(req.Address)
 
-	res, err := h.addressStore.Create(req)
+	id, err := h.addressStore.Create(req)
 	if err != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
 	}
 
-	return c.Status(http.StatusCreated).JSON(res)
+	res, err := h.addressStore.GetOne(id)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
+
+	return c.Status(http.StatusOK).JSON(res)
 }
 
 func (h *Handler) GetAddresses(c *fiber.Ctx) error {

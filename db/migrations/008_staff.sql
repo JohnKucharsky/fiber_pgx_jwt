@@ -5,7 +5,7 @@ create table staff(
      last_name varchar(45) not null,
      address_id smallint references address(id) on update cascade on delete set null,
      email varchar(50) unique,
-     store_id smallint not null,
+     store_id smallint,
      active bool not null default true,
      username varchar(25) not null,
      password varchar(40),
