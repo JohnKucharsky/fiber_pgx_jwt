@@ -14,7 +14,18 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	cityStore := store.NewCityStore(db)
 	addressStore := store.NewAddressStore(db)
 	cs := store.NewCountryStore(db)
-	h := handler.NewHandler(us, as, cs, cityStore, addressStore)
+	categoryStore := store.NewCategoryStore(db)
+	languageStore := store.NewLanguageStore(db)
+
+	h := handler.NewHandler(
+		us,
+		as,
+		cs,
+		cityStore,
+		addressStore,
+		categoryStore,
+		languageStore,
+	)
 
 	v1 := r.Group("/api")
 
@@ -62,4 +73,22 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	address.Put("/:id", h.UpdateAddress)
 	address.Delete("/:id", h.DeleteAddress)
 	// end address
+
+	// category
+	category := v1.Group("/category")
+	category.Post("/", h.CreateCategory)
+	category.Get("/", h.GetCategories)
+	category.Get("/:id", h.GetOneCategory)
+	category.Put("/:id", h.UpdateCategory)
+	category.Delete("/:id", h.DeleteCategory)
+	// end category
+
+	// language
+	language := v1.Group("/language")
+	language.Post("/", h.CreateLanguage)
+	language.Get("/", h.GetLanguages)
+	language.Get("/:id", h.GetOneLanguage)
+	language.Put("/:id", h.UpdateLanguage)
+	language.Delete("/:id", h.DeleteLanguage)
+	// end language
 }

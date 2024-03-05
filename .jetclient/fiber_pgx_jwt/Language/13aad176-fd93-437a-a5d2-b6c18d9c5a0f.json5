@@ -1,0 +1,62 @@
+{
+  id : "13aad176-fd93-437a-a5d2-b6c18d9c5a0f",
+  name : "Language",
+  icon : "FOLDER",
+  sortWeight : 8000000,
+  requests : [
+    {
+      id : "d868890e-c159-4ed6-b533-a753d8895803",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/language",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "name": "first"\
+}'
+      }
+    },
+    {
+      id : "25a527eb-bb80-438c-bb0c-617741c190df",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/language"
+    },
+    {
+      id : "f9212d6e-af55-4b7c-85be-ade40ccab9ba",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/language/1"
+    },
+    {
+      id : "b745d5bc-cfe8-45c4-a8da-ddda5f1b963b",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/language/1",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "name": "Language"\
+}'
+      }
+    },
+    {
+      id : "fa2d88f0-2d7d-437c-8aed-3a5d9f10b2e5",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/language/1"
+    }
+  ]
+}

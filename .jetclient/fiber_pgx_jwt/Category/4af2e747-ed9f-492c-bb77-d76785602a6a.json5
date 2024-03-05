@@ -1,0 +1,62 @@
+{
+  id : "4af2e747-ed9f-492c-bb77-d76785602a6a",
+  name : "Category",
+  icon : "FOLDER",
+  sortWeight : 7000000,
+  requests : [
+    {
+      id : "e2610798-7f63-4dd2-ae71-84f6c54cb953",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/category",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "name": "first"\
+}'
+      }
+    },
+    {
+      id : "bd9065a7-342b-47e4-b976-7973090334cf",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/category"
+    },
+    {
+      id : "77a2263b-2f2a-46d2-a83d-c012d8aa2d6b",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/category/1"
+    },
+    {
+      id : "c32e88d8-d0ee-4ebf-a914-f7bc37a855fe",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/category/1",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "name": "Category"\
+}'
+      }
+    },
+    {
+      id : "ab161e2d-c3b9-438d-aa39-82a2dac1d205",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/category/1"
+    }
+  ]
+}

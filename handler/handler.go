@@ -5,11 +5,13 @@ import (
 )
 
 type Handler struct {
-	userStore    domain.AuthStore
-	actorStore   domain.ActorStore
-	countryStore domain.CountryStore
-	cityStore    domain.CityStore
-	addressStore domain.AddressStore
+	userStore     domain.AuthStore
+	actorStore    domain.ActorStore
+	countryStore  domain.CountryStore
+	cityStore     domain.CityStore
+	addressStore  domain.AddressStore
+	categoryStore domain.CategoryStore
+	languageStore domain.LanguageStore
 }
 
 func NewHandler(
@@ -18,12 +20,16 @@ func NewHandler(
 	cs domain.CountryStore,
 	cityStore domain.CityStore,
 	addressStore domain.AddressStore,
+	categoryStore domain.CategoryStore,
+	languageStore domain.LanguageStore,
 ) *Handler {
 	return &Handler{
-		userStore:    us,
-		actorStore:   as,
-		countryStore: cs,
-		cityStore:    cityStore,
-		addressStore: addressStore,
+		userStore:     us,
+		actorStore:    as,
+		countryStore:  cs,
+		cityStore:     cityStore,
+		addressStore:  addressStore,
+		categoryStore: categoryStore,
+		languageStore: languageStore,
 	}
 }
