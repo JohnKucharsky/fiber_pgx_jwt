@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"github.com/jackc/pgx/v5"
 	"time"
 )
 
@@ -8,7 +9,7 @@ type AddressStore interface {
 	Create(m AddressInput) (int, error)
 	GetMany() ([]*Address, error)
 	GetOne(id int) (*Address, error)
-	Update(m AddressInput, id int) (int, error)
+	Update(m AddressInput, id int) error
 	Delete(id int) (int, error)
 }
 
@@ -31,4 +32,52 @@ type AddressInput struct {
 	CityID     *int    `json:"city_id"`
 	PostalCode *int    `json:"postal_code"`
 	Phone      string  `json:"phone" validate:"required"`
+}
+
+func ScanAddress(row pgx.CollectableRow) (*Address, error) {
+	var addr Address
+
+	var cityId *int
+	var cityCity *string
+	var cityUpdatedAt *time.Time
+	var countryId *int
+	var countryCountry *string
+	var countryUpdatedAt *time.Time
+
+	err := row.Scan(
+		&addr.ID,
+		&addr.Address,
+		&addr.Address2,
+		&addr.District,
+		&cityId,
+		&cityCity,
+		&cityUpdatedAt,
+		&countryId,
+		&countryCountry,
+		&countryUpdatedAt,
+		&addr.PostalCode,
+		&addr.Phone,
+		&addr.UpdatedAt,
+	)
+
+	if cityId != nil {
+		newCity := &City{
+			ID:        *cityId,
+			City:      *cityCity,
+			Country:   nil,
+			UpdatedAt: *cityUpdatedAt,
+		}
+		addr.City = newCity
+	}
+
+	if countryId != nil {
+		newCountry := &Country{
+			ID:        *countryId,
+			Country:   *countryCountry,
+			UpdatedAt: *countryUpdatedAt,
+		}
+		addr.Country = newCountry
+	}
+
+	return &addr, err
 }

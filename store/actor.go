@@ -59,7 +59,16 @@ func (as *ActorStore) GetMany() ([]*domain.Actor, error) {
 	}
 
 	res, err := pgx.CollectRows(
-		rows, pgx.RowToAddrOfStructByName[domain.Actor],
+		rows, func(row pgx.CollectableRow) (*domain.Actor, error) {
+			var actor domain.Actor
+			err := row.Scan(
+				&actor.ID,
+				&actor.FirstName,
+				&actor.LastName,
+				&actor.UpdatedAt,
+			)
+			return &actor, err
+		},
 	)
 	if err != nil {
 		return nil, err

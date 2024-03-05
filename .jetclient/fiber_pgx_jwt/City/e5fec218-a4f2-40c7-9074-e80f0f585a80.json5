@@ -50,7 +50,7 @@
         type : "JSON",
         raw : '{\
   "city": "Kras",\
-  "country_id": 4\
+  "country_id": 2\
 }'
       }
     },
@@ -58,7 +58,7 @@
       id : "e9838412-b9c2-4459-938e-9cf42ef70680",
       name : "Delete",
       method : "DELETE",
-      url : "{{host}}/city/2"
+      url : "{{host}}/city/1"
     }
   ]
 }

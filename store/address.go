@@ -3,7 +3,6 @@ package store
 import (
 	"context"
 	"github.com/JohnKucharsky/fiber_pgx_jwt/domain"
-	"github.com/induzo/gocom/database/pginit/v2"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -61,30 +60,23 @@ func (as *AddressStore) GetMany() ([]*domain.Address, error) {
 	ctx := context.Background()
 
 	rows, err := as.db.Query(
-		ctx, `select json_build_object(
-       'id', address.id,
-       'address', address.address,
-       'address2', address.address2,
-       'district', address.district,
-       'city', CASE 
-            WHEN address.city_id IS NULL THEN NULL
-            ELSE json_build_object(
-           'id', city.id,
-           'city', city.city,
-           'updated_at', city.updated_at
-       ) 
-       END,
-       'country', CASE 
-            WHEN city.country_id IS NULL THEN NULL
-            ELSE json_build_object(
-           'id', country.id,
-           'country', country.country,
-           'updated_at', country.updated_at
-       ) 
-       END,
-       'updated_at', address.updated_at
-     ) from address left join city on address.city_id = city.id
-     left join country on city.country_id = country.id
+		ctx, `
+		select 
+			address.id,
+			address.address,
+			address.address2,
+			address.district,
+			city.id as city_id,
+			city.city as city_city,
+			city.updated_at as city_updated_at,
+			country.id as country_id,
+			country.country as country_country,
+			country.updated_at as country_updated_at,
+			address.postal_code,
+			address.phone,
+			address.updated_at from address 
+		left join city on address.city_id = city.id
+		left join country on city.country_id = country.id;
      `,
 	)
 	if err != nil {
@@ -92,7 +84,7 @@ func (as *AddressStore) GetMany() ([]*domain.Address, error) {
 	}
 
 	res, err := pgx.CollectRows(
-		rows, pginit.JSONRowToAddrOfStruct[domain.Address],
+		rows, domain.ScanAddress,
 	)
 	if err != nil {
 		return nil, err
@@ -106,7 +98,23 @@ func (as *AddressStore) GetOne(id int) (*domain.Address, error) {
 
 	rows, err := as.db.Query(
 		ctx,
-		`select * from actor where id = @id`,
+		`select 
+			address.id,
+			address.address,
+			address.address2,
+			address.district,
+			city.id as city_id,
+			city.city as city_city,
+			city.updated_at as city_updated_at,
+			country.id as country_id,
+			country.country as country_country,
+			country.updated_at as country_updated_at,
+			address.postal_code,
+			address.phone,
+			address.updated_at from address 
+		left join city on address.city_id = city.id
+		left join country on city.country_id = country.id 
+		where address.id = @id`,
 		pgx.NamedArgs{"id": id},
 	)
 	if err != nil {
@@ -114,7 +122,7 @@ func (as *AddressStore) GetOne(id int) (*domain.Address, error) {
 	}
 
 	res, err := pgx.CollectExactlyOneRow(
-		rows, pgx.RowToAddrOfStructByName[domain.Address],
+		rows, domain.ScanAddress,
 	)
 	if err != nil {
 		return nil, err
@@ -123,41 +131,34 @@ func (as *AddressStore) GetOne(id int) (*domain.Address, error) {
 	return res, nil
 }
 
-func (as *AddressStore) Update(u domain.AddressInput, id int) (
-	int,
-	error,
-) {
+func (as *AddressStore) Update(m domain.AddressInput, id int) error {
 	ctx := context.Background()
 
-	rows, err := as.db.Query(
+	_, err := as.db.Exec(
 		ctx,
-		`UPDATE actor SET 
-                first_name = @first_name,
-    			last_name = @last_name 
-             WHERE id = @id 
-        returning id`,
+		`UPDATE address SET 
+			address = @address,
+			address2 = @address2,
+			district = @district,
+			city_id = @city_id,
+			postal_code = @postal_code,
+			phone = @phone
+             WHERE id = @id`,
 		pgx.NamedArgs{
-			"id":         id,
-			"first_name": u.Address2,
-			"last_name":  u.District,
+			"id":          id,
+			"address":     m.Address,
+			"address2":    m.Address2,
+			"district":    m.District,
+			"city_id":     m.CityID,
+			"postal_code": m.PostalCode,
+			"phone":       m.Phone,
 		},
 	)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	type idRes struct {
-		ID int `db:"id"`
-	}
-
-	res, err := pgx.CollectExactlyOneRow(
-		rows, pgx.RowToAddrOfStructByName[idRes],
-	)
-	if err != nil {
-		return 0, err
-	}
-
-	return res.ID, nil
+	return nil
 }
 
 func (as *AddressStore) Delete(id int) (int, error) {
@@ -165,8 +166,8 @@ func (as *AddressStore) Delete(id int) (int, error) {
 
 	rows, err := as.db.Query(
 		ctx,
-		`delete from actor where id = @id 
-        returning id, first_name, last_name, updated_at`,
+		`delete from address where id = @id 
+        returning id`,
 		pgx.NamedArgs{
 			"id": id,
 		},

@@ -40,7 +40,7 @@
       id : "02ed98a0-e38f-4706-b268-a32a488c1781",
       name : "Update",
       method : "PUT",
-      url : "{{host}}/city/1",
+      url : "{{host}}/address/1",
       headers : [
         {
           key : "Content-Type",
@@ -50,8 +50,10 @@
       body : {
         type : "JSON",
         raw : '{\
-  "city": "Kras",\
-  "country_id": 4\
+  "address": "dfessrtsdgs",\
+  "district": "sdfg",\
+  "phone":"23esss4",\
+  "city_id": 1\
 }'
       }
     },
@@ -59,7 +61,7 @@
       id : "c0cd56ca-4327-4def-be2f-988db4ac3374",
       name : "Delete",
       method : "DELETE",
-      url : "{{host}}/city/2"
+      url : "{{host}}/address/2"
     }
   ]
 }
