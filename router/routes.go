@@ -44,7 +44,7 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 
 	// actor
 	actor := v1.Group("/actor")
-	actor.Post("/", h.CreateActor)
+	actor.Post("/", h.DeserializeUser, h.CreateActor)
 	actor.Get("/", h.GetActors)
 	actor.Get("/:id", h.GetOneActor)
 	actor.Put("/:id", h.UpdateActor)

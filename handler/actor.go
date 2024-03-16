@@ -15,7 +15,7 @@ func (h *Handler) CreateActor(c *fiber.Ctx) error {
 
 	res, err := h.actorStore.Create(req)
 	if err != nil {
-		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 
 	return c.Status(http.StatusCreated).JSON(res)

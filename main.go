@@ -43,6 +43,7 @@ func main() {
 	redis := db.NewRedis(redisURI)
 
 	router.Register(f, d, redis)
+	f.Static("/api/docs", "./docs")
 
 	err := f.Listen(":8080")
 	if err != nil {

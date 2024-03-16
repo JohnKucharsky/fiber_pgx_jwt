@@ -55,8 +55,8 @@
       body : {
         type : "JSON",
         raw : '{\
-    "email": "admin@admins2.com",\
-    "password": "password123"\
+    "email": "me@mail.com",\
+    "password": "stringst"\
 }'
       }
     }

@@ -24,7 +24,7 @@ func (h *Handler) SignUp(c *fiber.Ctx) error {
 
 	res, err := h.userStore.Create(req)
 	if err != nil {
-		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 
 	return c.Status(http.StatusCreated).JSON(res)
@@ -97,7 +97,12 @@ func (h *Handler) SignIn(c *fiber.Ctx) error {
 		},
 	)
 
-	return c.Status(http.StatusOK).JSON(res)
+	return c.Status(fiber.StatusOK).JSON(
+		fiber.Map{
+			"access_token": accessToken,
+			"user":         res,
+		},
+	)
 }
 
 func (h *Handler) RefreshAccessToken(c *fiber.Ctx) error {
