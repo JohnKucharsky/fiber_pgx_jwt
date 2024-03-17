@@ -33,4 +33,4 @@ jobs:
           script: |
             docker pull johnkucharsky/golang:latest
             cd fiber_pgx_jwt
-            docker-compose up -d --build
+            docker compose up -d --build
