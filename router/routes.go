@@ -80,10 +80,10 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 
 	// category
 	category := v1.Group("/category")
-	category.Post("/", h.CreateCategory)
+	category.Post("/", h.DeserializeUser, h.CreateCategory)
 	category.Get("/", h.GetCategories)
 	category.Get("/:id", h.GetOneCategory)
-	category.Put("/:id", h.UpdateCategory)
+	category.Put("/:id", h.DeserializeUser, h.UpdateCategory)
 	category.Delete("/:id", h.DeleteCategory)
 	// end category
 

@@ -10,12 +10,98 @@ tags:
   - name: Country
   - name: City
   - name: Address
+  - name: Category
+  - name: Language
+  - name: Customer
+  - name: Staff
 paths:
+  /auth/sign-up:
+    post:
+      tags:
+        - Authorization
+      summary: Register
+      operationId: SignUp
+      requestBody:
+        $ref: '#/components/requestBodies/SignUpInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/User'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+  /auth/login:
+    post:
+      tags:
+        - Authorization
+      summary: Login
+      description: Sign in to the app. Returns cookies, access_token, refresh_token, logged_in
+      operationId: SignIn
+      requestBody:
+        $ref: '#/components/requestBodies/SignInInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/LoginRes'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+  /auth/logout:
+    get:
+      tags:
+        - Authorization
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      summary: Logout
+      description: Destroys all cookies, finishes local session, saved on the server
+      operationId: Logout
+      responses:
+        '201':
+          $ref: '#/components/responses/EmptyOkResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+  /auth/refresh:
+    get:
+      tags:
+        - Authorization
+      security:
+        - refresh_token: [ ]
+      summary: Refresh token
+      description: Sets new access_token and logged_in(HTTPOnly:false). refresh_token stays the same until expires
+      operationId: RefreshToken
+      responses:
+        '201':
+          $ref: '#/components/responses/AccessToken'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+  /auth/me:
+    get:
+      tags:
+        - Authorization
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      summary: Get me
+      description: Get info about currently authorized user
+      operationId: GetMe
+      responses:
+        '201':
+          $ref: '#/components/responses/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
   /actor:
     post:
       tags:
         - Actor
       summary: Create an actor
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       operationId: ActorPost
       requestBody:
         $ref: '#/components/requestBodies/ActorInput'
@@ -255,75 +341,69 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/GenericError'
-  /auth/sign-up:
+  /category:
     post:
       tags:
-        - Authorization
-      summary: Register
-      operationId: SignUp
-      requestBody:
-        $ref: '#/components/requestBodies/SignUpInput'
-      responses:
-        '201':
-          $ref: '#/components/responses/User'
-        '422':
-          $ref: '#/components/responses/GenericError'
-      x-codegen-request-body-name: body
-  /auth/login:
-    post:
-      tags:
-        - Authorization
-      summary: Login
-      description: Sign in to the app. Returns cookies, access_token, refresh_token, logged_in
-      operationId: SignIn
-      requestBody:
-        $ref: '#/components/requestBodies/SignInInput'
-      responses:
-        '201':
-          $ref: '#/components/responses/LoginRes'
-        '422':
-          $ref: '#/components/responses/GenericError'
-      x-codegen-request-body-name: body
-  /auth/logout:
-    get:
-      tags:
-        - Authorization
-      summary: Logout
-      description: Destroys all cookies, finishes local session, saved on the server
-      operationId: Logout
-      responses:
-        '201':
-          $ref: '#/components/responses/EmptyOkResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/GenericError'
-  /auth/refresh:
-    get:
-      tags:
-        - Authorization
-      summary: Refresh token
-      description: Sets new access_token and logged_in(HTTPOnly:false). refresh_token stays the same until expires
-      operationId: RefreshToken
-      responses:
-        '201':
-          $ref: '#/components/responses/AccessToken'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/GenericError'
-  /auth/me:
-    get:
-      tags:
-        - Authorization
+        - Category
+      summary: Create a category
       security:
-        - access_token: []
-      summary: Get me
-      description: Get info about currently authorized user
-      operationId: GetMe
+        - access_token: [ ]
+        - Authorization: [ ]
+      operationId: ActorPost
+      requestBody:
+        $ref: '#/components/requestBodies/ActorInput'
       responses:
         '201':
-          $ref: '#/components/responses/User'
+          $ref: '#/components/responses/OneActor'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Actor
+      summary: Get all actors
+      operationId: GetManyActors
+      responses:
+        '200':
+          $ref: '#/components/responses/ManyActors'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /category/{id}:
+    get:
+      tags:
+        - Actor
+      description: Get actor by id
+      operationId: GetOneActor
+      responses:
+        '200':
+          $ref: '#/components/responses/OneActor'
+    put:
+      tags:
+        - Actor
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      description: Update actor
+      operationId: UpdateActor
+      requestBody:
+        $ref: '#/components/requestBodies/ActorInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneActor'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    delete:
+      tags:
+        - Actor
+      description: Delete an actor
+      operationId: DeleteActor
+      responses:
+        '201':
+          $ref: '#/components/responses/OneActor'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -332,10 +412,22 @@ components:
   securitySchemes:
     access_token:
       description: |
-        You have to have access token in access_token cookie
+        You have to have access token in access token cookie to authorize request
       type: apiKey
       name: access_token
       in: cookie
+    refresh_token:
+      description: |
+        Refresh token is used to gain new access token
+      type: apiKey
+      name: refresh_token
+      in: cookie
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: |
+        Prefix the value with "Authorization" to indicate the custom authorization type
   responses:
     ManyActors:
       description: Actors array
@@ -395,6 +487,11 @@ components:
               $ref: '#/components/schemas/Address'
     AccessToken:
       description: Access token
+      headers:
+        Set-Cookie:
+          schema:
+            type: string
+            example: access_token httponly, logged_in boolean
       content:
         application/json:
           schema:
@@ -415,7 +512,12 @@ components:
           schema:
             $ref: '#/components/schemas/User'
     LoginRes:
-      description: User and access token
+      description: User, access token, refresh_token, logged_in
+      headers:
+        Set-Cookie:
+          schema:
+            type: string
+            example: access_token httponly, refresh_token httponly, logged_in boolean
       content:
         application/json:
           schema:
@@ -475,6 +577,27 @@ components:
           schema:
             $ref: '#/components/schemas/SignInInput'
   schemas:
+    Category:
+      required:
+        - id
+        - name
+        - updated_at
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
+    CategoryInput:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
     Actor:
       required:
         - id
@@ -537,8 +660,9 @@ components:
         city:
           type: string
         country:
-          type: string
-          nullable: true
+          anyOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/Country'
         updated_at:
           type: string
           format: date-time
@@ -575,11 +699,13 @@ components:
         district:
           type: string
         city:
-          type: string
-          nullable: true
+          anyOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/City'
         country:
-          type: string
-          nullable: true
+          anyOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/Country'
         postal_code:
           type: string
           nullable: true
