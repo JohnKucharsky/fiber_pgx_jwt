@@ -13,6 +13,7 @@ import (
 	"os/signal"
 )
 
+// ghg
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("Can't load env")
