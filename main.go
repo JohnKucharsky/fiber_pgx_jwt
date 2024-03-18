@@ -7,12 +7,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"os/signal"
 )
 
+// ghg
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("Can't load env")
@@ -20,7 +22,10 @@ func main() {
 	postgresURI := os.Getenv("POSTGRES_URI")
 	redisURI := os.Getenv("REDIS_URI")
 
-	f := fiber.New()
+	engine := html.New("./docs", ".html")
+	f := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	f.Use(logger.New())
 	f.Use(
 		cors.New(
@@ -43,7 +48,10 @@ func main() {
 	redis := db.NewRedis(redisURI)
 
 	router.Register(f, d, redis)
-	f.Static("/api/docs", "./docs")
+
+	f.Get("/api", func(c *fiber.Ctx) error {
+		return c.Render("index", fiber.Map{})
+	})
 
 	err := f.Listen(":8080")
 	if err != nil {
