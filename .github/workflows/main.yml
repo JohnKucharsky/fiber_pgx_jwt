@@ -32,6 +32,6 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd fiber_pgx_jwt
-            docker-compose stop
-            docker-compose rm -f
-            docker-compose -f compose-prod.yaml up -d
+            docker compose stop
+            docker compose rm -f
+            docker compose -f compose-prod.yaml up -d
