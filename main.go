@@ -7,9 +7,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 )
@@ -22,10 +22,7 @@ func main() {
 	postgresURI := os.Getenv("POSTGRES_URI")
 	redisURI := os.Getenv("REDIS_URI")
 
-	engine := html.New("./docs", ".html")
-	f := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	f := fiber.New()
 	f.Use(logger.New())
 	f.Use(
 		cors.New(
@@ -48,10 +45,17 @@ func main() {
 	redis := db.NewRedis(redisURI)
 
 	router.Register(f, d, redis)
-
-	f.Get("/api", func(c *fiber.Ctx) error {
-		return c.Render("index", fiber.Map{})
-	})
+	f.Get(
+		"/api", func(c *fiber.Ctx) error {
+			if err := c.SendFile("public/index.html"); err != nil {
+				err := c.SendStatus(http.StatusBadRequest)
+				if err != nil {
+					return nil
+				}
+			}
+			return nil
+		},
+	)
 
 	err := f.Listen(":8080")
 	if err != nil {
