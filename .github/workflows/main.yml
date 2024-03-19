@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t johnkucharsky/golang:latest .
+          docker build --target final -t johnkucharsky/golang:latest .
           docker push johnkucharsky/golang:latest
 
       - name: Deploy to VPS
