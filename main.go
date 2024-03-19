@@ -47,7 +47,7 @@ func main() {
 	router.Register(f, d, redis)
 	f.Get(
 		"/api", func(c *fiber.Ctx) error {
-			if err := c.SendFile("public/index.html"); err != nil {
+			if err := c.SendFile("./public/index.html"); err != nil {
 				err := c.SendStatus(http.StatusBadRequest)
 				if err != nil {
 					return nil
