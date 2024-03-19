@@ -176,7 +176,7 @@ func (h *Handler) DeserializeUser(c *fiber.Ctx) error {
 
 	if accessToken == "" {
 		return c.Status(http.StatusUnauthorized).JSON(
-			fiber.Map{"message": "No access token"},
+			fiber.Map{"message": "No access token, check"},
 		)
 	}
 
