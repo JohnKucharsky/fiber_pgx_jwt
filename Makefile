@@ -11,4 +11,4 @@ migrate:
 migrate-down:
 	cd db/migrations; goose postgres postgres://postgres:pass@localhost:5432/data down
 api:
-	cd ./docs; redocly build-docs ./openapi.yaml --output=index.html
+	cd ./public; redocly build-docs ./openapi.yaml --output=index.html

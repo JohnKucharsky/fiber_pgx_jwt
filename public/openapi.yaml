@@ -349,12 +349,12 @@ paths:
       security:
         - access_token: [ ]
         - Authorization: [ ]
-      operationId: ActorPost
+      operationId: CategoryPost
       requestBody:
-        $ref: '#/components/requestBodies/ActorInput'
+        $ref: '#/components/requestBodies/CategoryInput'
       responses:
         '201':
-          $ref: '#/components/responses/OneActor'
+          $ref: '#/components/responses/OneCategory'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -362,48 +362,49 @@ paths:
       x-codegen-request-body-name: body
     get:
       tags:
-        - Actor
-      summary: Get all actors
-      operationId: GetManyActors
+        - Category
+      summary: Get all categories
+      operationId: GetManyCategories
       responses:
         '200':
-          $ref: '#/components/responses/ManyActors'
+          $ref: '#/components/responses/ManyCategories'
         '401':
           $ref: '#/components/responses/Unauthorized'
   /category/{id}:
     get:
       tags:
-        - Actor
-      description: Get actor by id
-      operationId: GetOneActor
+        - Category
+      description: Get category by id
+      operationId: GetOneCategory
       responses:
         '200':
-          $ref: '#/components/responses/OneActor'
+          $ref: '#/components/responses/OneCategory'
     put:
       tags:
-        - Actor
+        - Category
       security:
         - access_token: [ ]
         - Authorization: [ ]
-      description: Update actor
-      operationId: UpdateActor
+      description: Update category
+      operationId: UpdateCategory
       requestBody:
-        $ref: '#/components/requestBodies/ActorInput'
+        $ref: '#/components/requestBodies/CategoryInput'
       responses:
         '201':
-          $ref: '#/components/responses/OneActor'
+          $ref: '#/components/responses/OneCategory'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
     delete:
       tags:
-        - Actor
-      description: Delete an actor
-      operationId: DeleteActor
+        - Category
+      description: Delete an category
+      operationId: DeleteCategory
       responses:
         '201':
-          $ref: '#/components/responses/OneActor'
+          $ref: '#/components/responses/OneCategory'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -429,6 +430,40 @@ components:
       description: |
         Prefix the value with "Authorization" to indicate the custom authorization type
   responses:
+    OneCategory:
+      description: Category
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Category'
+    ManyCategories:
+      description: Categories array
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Category'
+    AccessToken:
+      description: Access token
+      headers:
+        Set-Cookie:
+          schema:
+            type: string
+            example: access_token httponly, logged_in boolean
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+    Unauthorized:
+      description: Unauthorized
+      content: {}
+    GenericError:
+      description: Unexpected error
+      content: {}
     ManyActors:
       description: Actors array
       content:
@@ -437,18 +472,12 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Actor'
-    Unauthorized:
-      description: Unauthorized
-      content: {}
     OneActor:
       description: One Actor
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Actor'
-    GenericError:
-      description: Unexpected error
-      content: {}
     ManyCountries:
       description: Many countries
       content:
@@ -485,20 +514,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Address'
-    AccessToken:
-      description: Access token
-      headers:
-        Set-Cookie:
-          schema:
-            type: string
-            example: access_token httponly, logged_in boolean
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              access_token:
-                type: string
     OneAddress:
       description: One address
       content:
@@ -534,6 +549,13 @@ components:
           schema:
             type: string
   requestBodies:
+    CategoryInput:
+      required: true
+      description: Update and create category
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CategoryInput'
     ActorInput:
       required: true
       description: Create and update actor
@@ -577,6 +599,164 @@ components:
           schema:
             $ref: '#/components/schemas/SignInInput'
   schemas:
+    Staff:
+      required:
+        - id
+        - first_name
+        - last_name
+        - email
+        - store_id
+        - active
+        - username
+        - password
+        - picture
+        - address_id
+        - updated_at
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          nullable: true
+        store_id:
+          type: integer
+          nullable: true
+        active:
+          type: boolean
+        username:
+          type: string
+        password:
+          type: string
+          nullable: true
+        picture:
+          type: string
+          format: binary
+          nullable: true
+        address:
+          anyOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/Address'
+        updated_at:
+          type: string
+          format: date-time
+    StaffInput:
+      required:
+        - first_name
+        - last_name
+        - active
+        - username
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          nullable: true
+        store_id:
+          type: number
+          nullable: true
+        active:
+          type: boolean
+        username:
+          type: string
+        password:
+          type: string
+          nullable: true
+        picture:
+          type: string
+          format: binary
+          nullable: true
+        address_id:
+          type: integer
+          nullable: true
+    Customer:
+      required:
+        - id
+        - store_id
+        - first_name
+        - last_name
+        - email
+        - address
+        - active
+        - create_date
+        - updated_at
+      type: object
+      properties:
+        id:
+          type: integer
+        store_id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          nullable: true
+        address:
+          anyOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/Address'
+        active:
+          type: boolean
+        create_date:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CustomerInput:
+      required:
+        - store_id
+        - first_name
+        - last_name
+        - active
+        - create_date
+      type: object
+      properties:
+        store_id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        address_id:
+          type: integer
+        active:
+          type: boolean
+        create_date:
+          type: string
+          format: date-time
+    Language:
+      required:
+        - id
+        - name
+        - updated_at
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        updated_at:
+          type: string
+          format: date-time
+    LanguageInput:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
     Category:
       required:
         - id
