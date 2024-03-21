@@ -1032,6 +1032,7 @@ components:
         updated_at:
           type: string
           format: date-time
+          example: 01.02.2024
     ActorInput:
       required:
         - first_name
@@ -1146,9 +1147,11 @@ components:
           example: 630526
         phone:
           type: string
+          example: +79993337788
         updated_at:
           type: string
           format: date-time
+          example: 02.02.2020
     AddressInput:
       required:
         - address
@@ -1158,19 +1161,25 @@ components:
       properties:
         address:
           type: string
+          example: 1 Vancouver Road, Norwich",NR7 9UJ
         address2:
           type: string
           nullable: true
+          example: 1 Dashwood Drive, Telford",TF1 3QW
         district:
           type: string
+          example: New York
         city_id:
           type: integer
           nullable: true
+          example: 1
         postal_code:
           type: integer
           nullable: true
+          example: 333888
         phone:
           type: string
+          example: +73447882211
     SignUpInput:
       required:
         - name
@@ -1179,11 +1188,14 @@ components:
       properties:
         name:
           type: string
+          example: Mat
         email:
           type: string
+          example: mat@mail.com
         password:
           type: string
           minLength: '8'
+          example: 123456789
     User:
       required:
         - id
@@ -1194,13 +1206,17 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         name:
           type: string
+          example: John
         email:
           type: string
+          example: john@mail.com
         updated_at:
           type: string
           format: date-time
+          example: 02.03.2020
     SignInInput:
       required:
         - email
@@ -1208,6 +1224,8 @@ components:
       properties:
         email:
           type: string
+          example: a@live.com
         password:
           type: string
           minLength: '8'
+          example: superSecretPass
