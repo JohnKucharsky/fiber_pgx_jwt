@@ -409,6 +409,134 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/GenericError'
+  /staff:
+    post:
+      tags:
+        - Staff
+      summary: Create staff
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      operationId: StaffPost
+      requestBody:
+        $ref: '#/components/requestBodies/StaffInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneStaff'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Staff
+      summary: Get all staff
+      operationId: GetManyStaff
+      responses:
+        '200':
+          $ref: '#/components/responses/ManyStaff'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /staff/{id}:
+    get:
+      tags:
+        - Staff
+      description: Get staff by id
+      operationId: GetOneStaff
+      responses:
+        '200':
+          $ref: '#/components/responses/OneStaff'
+    put:
+      tags:
+        - Staff
+      description: Update staff
+      operationId: UpdateStaff
+      requestBody:
+        $ref: '#/components/requestBodies/StaffInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneStaff'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    delete:
+      tags:
+        - Staff
+      description: Delete staff
+      operationId: DeleteStaff
+      responses:
+        '201':
+          $ref: '#/components/responses/OneStaff'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+  /language:
+    post:
+      tags:
+        - Language
+      summary: Create language
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      operationId: LanguagePost
+      requestBody:
+        $ref: '#/components/requestBodies/LanguageInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneLanguage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Language
+      summary: Get all languages
+      operationId: GetManyLanguages
+      responses:
+        '200':
+          $ref: '#/components/responses/ManyLanguages'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /language/{id}:
+    get:
+      tags:
+        - Language
+      description: Get language by id
+      operationId: GetOneLanguage
+      responses:
+        '200':
+          $ref: '#/components/responses/OneLanguage'
+    put:
+      tags:
+        - Language
+      description: Update language
+      operationId: UpdateLanguage
+      requestBody:
+        $ref: '#/components/requestBodies/LanguageInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneLanguage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    delete:
+      tags:
+        - Language
+      description: Delete language
+      operationId: DeleteLanguage
+      responses:
+        '201':
+          $ref: '#/components/responses/OneLanguage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
 components:
   securitySchemes:
     access_token:
@@ -430,6 +558,48 @@ components:
       description: |
         Prefix the value with "Authorization" to indicate the custom authorization type
   responses:
+    OneStaff:
+      description: Staff
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Staff'
+    ManyStaff:
+      description: Staff array
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Staff'
+    OneCustomer:
+      description: Customer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
+    ManyCustomers:
+      description: Customers array
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Customer'
+    OneLanguage:
+      description: Language
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Language'
+    ManyLanguages:
+      description: Languages array
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Language'
     OneCategory:
       description: Category
       content:
@@ -444,26 +614,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Category'
-    AccessToken:
-      description: Access token
-      headers:
-        Set-Cookie:
-          schema:
-            type: string
-            example: access_token httponly, logged_in boolean
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              access_token:
-                type: string
-    Unauthorized:
-      description: Unauthorized
-      content: {}
-    GenericError:
-      description: Unexpected error
-      content: {}
     ManyActors:
       description: Actors array
       content:
@@ -542,6 +692,26 @@ components:
                 type: string
               user:
                 $ref: '#/components/schemas/User'
+    AccessToken:
+      description: Access token
+      headers:
+        Set-Cookie:
+          schema:
+            type: string
+            example: access_token httponly, logged_in boolean
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+    Unauthorized:
+      description: Unauthorized
+      content: { }
+    GenericError:
+      description: Unexpected error
+      content: { }
     EmptyOkResponse:
       description: No content
       content:
@@ -549,6 +719,27 @@ components:
           schema:
             type: string
   requestBodies:
+    StaffInput:
+      required: true
+      description: Update and create staff
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StaffInput'
+    CustomerInput:
+      required: true
+      description: Update and create customer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomerInput'
+    LanguageInput:
+      required: true
+      description: Update and create language
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LanguageInput'
     CategoryInput:
       required: true
       description: Update and create category
@@ -616,27 +807,36 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         first_name:
           type: string
+          example: John
         last_name:
           type: string
+          example: Doe
         email:
           type: string
           nullable: true
+          example: example@mail.com
         store_id:
           type: integer
           nullable: true
+          example: 1
         active:
           type: boolean
+          example: false
         username:
           type: string
+          example: bigDaddy
         password:
           type: string
           nullable: true
+          example: 12345678
         picture:
           type: string
           format: binary
           nullable: true
+          example: 'null'
         address:
           anyOf:
             - type: 'null'
@@ -644,6 +844,7 @@ components:
         updated_at:
           type: string
           format: date-time
+          example: 01.02.2020
     StaffInput:
       required:
         - first_name
@@ -654,28 +855,37 @@ components:
       properties:
         first_name:
           type: string
+          example: John
         last_name:
           type: string
+          example: Doe
         email:
           type: string
           nullable: true
+          example: johnydoe@mail.com
         store_id:
           type: number
           nullable: true
+          example: 1
         active:
           type: boolean
+          example: false
         username:
           type: string
+          example: exceptional
         password:
           type: string
           nullable: true
+          example: 12345678
         picture:
           type: string
           format: binary
           nullable: true
+          example: null
         address_id:
           type: integer
           nullable: true
+          example: 1
     Customer:
       required:
         - id
@@ -691,27 +901,36 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         store_id:
           type: integer
+          example: 1
         first_name:
           type: string
+          example: Andrew
         last_name:
           type: string
+          example: Gam
         email:
           type: string
           nullable: true
+          example: test@mail.com
         address:
           anyOf:
             - type: 'null'
             - $ref: '#/components/schemas/Address'
+          example: 'null'
         active:
           type: boolean
+          example: false
         create_date:
           type: string
           format: date-time
+          example: 02.02.2023
         updated_at:
           type: string
           format: date-time
+          example: 03.04.2022
     CustomerInput:
       required:
         - store_id
@@ -723,19 +942,26 @@ components:
       properties:
         store_id:
           type: integer
+          example: 1
         first_name:
           type: string
+          example: Sarah
         last_name:
           type: string
+          example: McLittle
         email:
           type: string
+          example: m@mail.com
         address_id:
           type: integer
+          example: 1
         active:
           type: boolean
+          example: false
         create_date:
           type: string
           format: date-time
+          example: 01.04.2021
     Language:
       required:
         - id
@@ -745,11 +971,14 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         name:
           type: string
+          example: German
         updated_at:
           type: string
           format: date-time
+          example: 02.02.2003
     LanguageInput:
       required:
         - name
@@ -757,6 +986,7 @@ components:
       properties:
         name:
           type: string
+          example: English
     Category:
       required:
         - id
@@ -766,11 +996,14 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         name:
           type: string
+          example: Horror
         updated_at:
           type: string
           format: date-time
+          example: 04.05.2025
     CategoryInput:
       required:
         - name
@@ -778,6 +1011,7 @@ components:
       properties:
         name:
           type: string
+          example: Comedy
     Actor:
       required:
         - id
@@ -788,10 +1022,13 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         first_name:
           type: string
+          example: John
         last_name:
           type: string
+          example: Travolta
         updated_at:
           type: string
           format: date-time
@@ -803,9 +1040,10 @@ components:
       properties:
         first_name:
           type: string
+          example: Jim
         last_name:
           type: string
-          format: date-time
+          example: Carey
     Country:
       required:
         - id
@@ -815,11 +1053,14 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         country:
           type: string
+          example: Russia
         updated_at:
           type: string
           format: date-time
+          example: 12.03.2024
     CountryInput:
       required:
         - country
@@ -827,6 +1068,7 @@ components:
       properties:
         country:
           type: string
+          example: France
     City:
       required:
         - id
@@ -837,15 +1079,19 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         city:
           type: string
+          example: Moscow
         country:
           anyOf:
             - type: 'null'
             - $ref: '#/components/schemas/Country'
+          example: 'null'
         updated_at:
           type: string
           format: date-time
+          example: 02.02.2024
     CityInput:
       required:
         - city
@@ -854,8 +1100,10 @@ components:
       properties:
         city:
           type: string
+          example: Krasnodar
         country_id:
           type: string
+          example: 1
     Address:
       required:
         - id
@@ -871,24 +1119,31 @@ components:
       properties:
         id:
           type: integer
+          example: 1
         address:
           type: string
+          example: 1 Vancouver Road, Norwich",NR7 9UJ
         address2:
           type: string
           nullable: true
+          example: 1 Dashwood Drive, Telford",TF1 3QW
         district:
           type: string
+          example: California
         city:
           anyOf:
             - type: 'null'
             - $ref: '#/components/schemas/City'
+          example: 'null'
         country:
           anyOf:
             - type: 'null'
             - $ref: '#/components/schemas/Country'
+          example: 'null'
         postal_code:
-          type: string
+          type: integer
           nullable: true
+          example: 630526
         phone:
           type: string
         updated_at:
