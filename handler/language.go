@@ -15,7 +15,7 @@ func (h *Handler) CreateLanguage(c *fiber.Ctx) error {
 
 	res, err := h.languageStore.Create(req)
 	if err != nil {
-		return c.Status(http.StatusUnprocessableEntity).JSON(err.Error())
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 
 	return c.Status(http.StatusCreated).JSON(res)

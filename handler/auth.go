@@ -187,7 +187,7 @@ func (h *Handler) DeserializeUser(c *fiber.Ctx) error {
 
 	res, err := h.userStore.GetOne("", userID)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(err.Error())
+		return c.Status(http.StatusForbidden).JSON(err.Error())
 	}
 
 	c.Locals("user", res)
@@ -205,9 +205,15 @@ func (h *Handler) GetMe(c *fiber.Ctx) error {
 func (h *Handler) LogoutUser(c *fiber.Ctx) error {
 	refreshToken := c.Cookies("refresh_token")
 	if refreshToken == "" {
-		return c.Status(http.StatusUnauthorized).JSON(fiber.Map{"error": "No refresh token in the cookies"})
+		return c.Status(http.StatusUnauthorized).JSON("No refresh token in the cookies")
 	}
-	accessToken := c.Locals("access_token_uuid").(string)
+	accessToken, ok := c.Locals("access_token_uuid").(string)
+	if !ok {
+		return c.Status(http.StatusUnauthorized).JSON("Access token is not a string")
+	}
+	if accessToken == "" {
+		return c.Status(http.StatusUnauthorized).JSON("Access token an empty string")
+	}
 
 	err := h.userStore.DeleteTokensRedis(refreshToken, accessToken)
 	if err != nil {

@@ -25,7 +25,7 @@ func (h *Handler) CreateAddress(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 
-	return c.Status(http.StatusOK).JSON(res)
+	return c.Status(http.StatusCreated).JSON(res)
 }
 
 func (h *Handler) GetAddresses(c *fiber.Ctx) error {
@@ -72,7 +72,7 @@ func (h *Handler) UpdateAddress(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 
-	return c.Status(http.StatusOK).JSON(res)
+	return c.Status(http.StatusCreated).JSON(res)
 }
 
 func (h *Handler) DeleteAddress(c *fiber.Ctx) error {

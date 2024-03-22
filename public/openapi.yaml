@@ -6,6 +6,7 @@ info:
 servers:
   - url: http://localhost:8080/api
 tags:
+  - name: Authorization
   - name: Actor
   - name: Country
   - name: City
@@ -24,8 +25,10 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/SignUpInput'
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/User'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
       x-codegen-request-body-name: body
@@ -39,8 +42,10 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/SignInInput'
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/LoginRes'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
       x-codegen-request-body-name: body
@@ -57,6 +62,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/EmptyOkResponse'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -73,7 +80,11 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/AccessToken'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/GenericError'
@@ -88,9 +99,11 @@ paths:
       description: Get info about currently authorized user
       operationId: GetMe
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/User'
         '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '422':
           $ref: '#/components/responses/GenericError'
@@ -110,6 +123,8 @@ paths:
           $ref: '#/components/responses/OneActor'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
       x-codegen-request-body-name: body
@@ -121,8 +136,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyActors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /actor/{id}:
     get:
       tags:
@@ -132,9 +147,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneActor'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Actor
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update actor
       operationId: UpdateActor
       requestBody:
@@ -144,24 +166,34 @@ paths:
           $ref: '#/components/responses/OneActor'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
     delete:
       tags:
         - Actor
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete an actor
       operationId: DeleteActor
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/OneActor'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
   /country:
     post:
       tags:
         - Country
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       summary: Create a country
       operationId: CountryPost
       requestBody:
@@ -169,6 +201,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCountry'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -182,8 +216,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyCountries'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /country/{id}:
     get:
       tags:
@@ -193,9 +227,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneCountry'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Country
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update country
       operationId: UpdateCountry
       requestBody:
@@ -203,6 +244,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCountry'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -210,11 +253,16 @@ paths:
     delete:
       tags:
         - Country
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete a country
       operationId: DeleteCountry
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/OneCountry'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -223,6 +271,9 @@ paths:
     post:
       tags:
         - City
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       summary: Create a city
       operationId: CityPost
       requestBody:
@@ -230,6 +281,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCity'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -243,8 +296,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyCities'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /city/{id}:
     get:
       tags:
@@ -254,9 +307,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneCity'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - City
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update city
       operationId: UpdateCity
       requestBody:
@@ -264,6 +324,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCity'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -271,11 +333,16 @@ paths:
     delete:
       tags:
         - City
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete a city
       operationId: DeleteCity
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/OneCity'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -284,6 +351,9 @@ paths:
     post:
       tags:
         - Address
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       summary: Create an address
       operationId: AddressPost
       requestBody:
@@ -291,6 +361,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneAddress'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -304,8 +376,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyAddresses'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /address/{id}:
     get:
       tags:
@@ -315,9 +387,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneAddress'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Address
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update address
       operationId: UpdateAddress
       requestBody:
@@ -325,6 +404,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneAddress'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -332,11 +413,20 @@ paths:
     delete:
       tags:
         - Address
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete an address
       operationId: DeleteAddress
       responses:
-        '201':
-          $ref: '#/components/responses/OneAddress'
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -355,6 +445,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCategory'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -368,8 +460,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyCategories'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /category/{id}:
     get:
       tags:
@@ -379,6 +471,10 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneCategory'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Category
@@ -392,6 +488,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneCategory'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -400,11 +498,16 @@ paths:
     delete:
       tags:
         - Category
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete an category
       operationId: DeleteCategory
       responses:
         '201':
           $ref: '#/components/responses/OneCategory'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -425,6 +528,8 @@ paths:
           $ref: '#/components/responses/OneStaff'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
       x-codegen-request-body-name: body
@@ -436,8 +541,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyStaff'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /staff/{id}:
     get:
       tags:
@@ -447,9 +552,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneStaff'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Staff
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update staff
       operationId: UpdateStaff
       requestBody:
@@ -457,6 +569,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/OneStaff'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -464,11 +578,96 @@ paths:
     delete:
       tags:
         - Staff
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete staff
       operationId: DeleteStaff
       responses:
         '201':
           $ref: '#/components/responses/OneStaff'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create customer
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      operationId: CustomerPost
+      requestBody:
+        $ref: '#/components/requestBodies/CustomerInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneCustomer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Customer
+      summary: Get all customers
+      operationId: GetManyCustomers
+      responses:
+        '200':
+          $ref: '#/components/responses/ManyCustomers'
+        '400':
+          $ref: '#/components/responses/GenericError'
+  /customer/{id}:
+    get:
+      tags:
+        - Customer
+      description: Get customer by id
+      operationId: GetOneCustomer
+      responses:
+        '200':
+          $ref: '#/components/responses/OneCustomer'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    put:
+      tags:
+        - Customer
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      description: Update customer
+      operationId: UpdateCustomer
+      requestBody:
+        $ref: '#/components/requestBodies/CustomerInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneCustomer'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    delete:
+      tags:
+        - Customer
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      description: Delete customer
+      operationId: DeleteCustomer
+      responses:
+        '201':
+          $ref: '#/components/responses/OneCustomer'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '422':
@@ -489,6 +688,8 @@ paths:
           $ref: '#/components/responses/OneLanguage'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
       x-codegen-request-body-name: body
@@ -500,8 +701,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ManyLanguages'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
   /language/{id}:
     get:
       tags:
@@ -511,9 +712,16 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/OneLanguage'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
     put:
       tags:
         - Language
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Update language
       operationId: UpdateLanguage
       requestBody:
@@ -523,18 +731,25 @@ paths:
           $ref: '#/components/responses/OneLanguage'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
     delete:
       tags:
         - Language
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
       description: Delete language
       operationId: DeleteLanguage
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/OneLanguage'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
 components:
@@ -801,7 +1016,7 @@ components:
         - username
         - password
         - picture
-        - address_id
+        - address
         - updated_at
       type: object
       properties:
@@ -1103,7 +1318,7 @@ components:
           type: string
           example: Krasnodar
         country_id:
-          type: string
+          type: integer
           example: 1
     Address:
       required:
@@ -1180,22 +1395,6 @@ components:
         phone:
           type: string
           example: +73447882211
-    SignUpInput:
-      required:
-        - name
-        - email
-        - password
-      properties:
-        name:
-          type: string
-          example: Mat
-        email:
-          type: string
-          example: mat@mail.com
-        password:
-          type: string
-          minLength: '8'
-          example: 123456789
     User:
       required:
         - id
@@ -1217,6 +1416,22 @@ components:
           type: string
           format: date-time
           example: 02.03.2020
+    SignUpInput:
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Me
+        email:
+          type: string
+          example: me@mail.com
+        password:
+          type: string
+          minLength: '8'
+          example: kkkkkkkk
     SignInInput:
       required:
         - email
@@ -1224,8 +1439,8 @@ components:
       properties:
         email:
           type: string
-          example: a@live.com
+          example: me@mail.com
         password:
           type: string
           minLength: '8'
-          example: superSecretPass
+          example: kkkkkkkk

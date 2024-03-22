@@ -30,7 +30,7 @@ type AddressInput struct {
 	Address2   *string `json:"address2"`
 	District   string  `json:"district" validate:"required"`
 	CityID     *int    `json:"city_id"`
-	PostalCode *int    `json:"postal_code"`
+	PostalCode *int64  `json:"postal_code"`
 	Phone      string  `json:"phone" validate:"required"`
 }
 

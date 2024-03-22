@@ -86,7 +86,7 @@ func (h *Handler) GetOneStaff(c *fiber.Ctx) error {
 		addr = address
 	}
 
-	return c.Status(http.StatusCreated).JSON(
+	return c.Status(http.StatusOK).JSON(
 		domain.StaffDBtoStaff(
 			res,
 			addr,

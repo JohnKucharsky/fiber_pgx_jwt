@@ -47,35 +47,35 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	actor.Post("/", h.DeserializeUser, h.CreateActor)
 	actor.Get("/", h.GetActors)
 	actor.Get("/:id", h.GetOneActor)
-	actor.Put("/:id", h.UpdateActor)
-	actor.Delete("/:id", h.DeleteActor)
+	actor.Put("/:id", h.DeserializeUser, h.UpdateActor)
+	actor.Delete("/:id", h.DeserializeUser, h.DeleteActor)
 	// end actor
 
 	// country
 	country := v1.Group("/country")
-	country.Post("/", h.CreateCountry)
+	country.Post("/", h.DeserializeUser, h.CreateCountry)
 	country.Get("/", h.GetCountries)
 	country.Get("/:id", h.GetOneCountry)
-	country.Put("/:id", h.UpdateCountry)
-	country.Delete("/:id", h.DeleteCountry)
+	country.Put("/:id", h.DeserializeUser, h.UpdateCountry)
+	country.Delete("/:id", h.DeserializeUser, h.DeleteCountry)
 	// end country
 
 	//city
 	city := v1.Group("/city")
-	city.Post("/", h.CreateCity)
+	city.Post("/", h.DeserializeUser, h.CreateCity)
 	city.Get("/", h.GetCities)
 	city.Get("/:id", h.GetOneCity)
-	city.Put("/:id", h.UpdateCity)
-	city.Delete("/:id", h.DeleteCity)
+	city.Put("/:id", h.DeserializeUser, h.UpdateCity)
+	city.Delete("/:id", h.DeserializeUser, h.DeleteCity)
 	// end city
 
 	//address
 	address := v1.Group("/address")
-	address.Post("/", h.CreateAddress)
+	address.Post("/", h.DeserializeUser, h.CreateAddress)
 	address.Get("/", h.GetAddresses)
 	address.Get("/:id", h.GetOneAddress)
-	address.Put("/:id", h.UpdateAddress)
-	address.Delete("/:id", h.DeleteAddress)
+	address.Put("/:id", h.DeserializeUser, h.UpdateAddress)
+	address.Delete("/:id", h.DeserializeUser, h.DeleteAddress)
 	// end address
 
 	// category
@@ -84,33 +84,33 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	category.Get("/", h.GetCategories)
 	category.Get("/:id", h.GetOneCategory)
 	category.Put("/:id", h.DeserializeUser, h.UpdateCategory)
-	category.Delete("/:id", h.DeleteCategory)
+	category.Delete("/:id", h.DeserializeUser, h.DeleteCategory)
 	// end category
 
 	// language
 	language := v1.Group("/language")
-	language.Post("/", h.CreateLanguage)
+	language.Post("/", h.DeserializeUser, h.CreateLanguage)
 	language.Get("/", h.GetLanguages)
 	language.Get("/:id", h.GetOneLanguage)
-	language.Put("/:id", h.UpdateLanguage)
-	language.Delete("/:id", h.DeleteLanguage)
+	language.Put("/:id", h.DeserializeUser, h.UpdateLanguage)
+	language.Delete("/:id", h.DeserializeUser, h.DeleteLanguage)
 	// end language
 
 	// customer
 	customer := v1.Group("/customer")
-	customer.Post("/", h.CreateCustomer)
+	customer.Post("/", h.DeserializeUser, h.CreateCustomer)
 	customer.Get("/", h.GetCustomers)
 	customer.Get("/:id", h.GetOneCustomer)
-	customer.Put("/:id", h.UpdateCustomer)
-	customer.Delete("/:id", h.DeleteCustomer)
+	customer.Put("/:id", h.DeserializeUser, h.UpdateCustomer)
+	customer.Delete("/:id", h.DeserializeUser, h.DeleteCustomer)
 	// end customer
 
 	// staff
 	staff := v1.Group("/staff")
-	staff.Post("/", h.CreateStaff)
+	staff.Post("/", h.DeserializeUser, h.CreateStaff)
 	staff.Get("/", h.GetStaffs)
 	staff.Get("/:id", h.GetOneStaff)
-	staff.Put("/:id", h.UpdateStaff)
-	staff.Delete("/:id", h.DeleteStaff)
+	staff.Put("/:id", h.DeserializeUser, h.UpdateStaff)
+	staff.Delete("/:id", h.DeserializeUser, h.DeleteStaff)
 	// end staff
 }
