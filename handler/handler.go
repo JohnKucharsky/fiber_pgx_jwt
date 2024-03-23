@@ -14,6 +14,7 @@ type Handler struct {
 	languageStore domain.LanguageStore
 	customerStore domain.CustomerStore
 	staffStore    domain.StaffStore
+	storeStore    domain.StoreStore
 }
 
 func NewHandler(
@@ -26,6 +27,7 @@ func NewHandler(
 	languageStore domain.LanguageStore,
 	customerStore domain.CustomerStore,
 	staffStore domain.StaffStore,
+	storeStore domain.StoreStore,
 ) *Handler {
 	return &Handler{
 		userStore:     us,
@@ -37,5 +39,6 @@ func NewHandler(
 		languageStore: languageStore,
 		customerStore: customerStore,
 		staffStore:    staffStore,
+		storeStore:    storeStore,
 	}
 }

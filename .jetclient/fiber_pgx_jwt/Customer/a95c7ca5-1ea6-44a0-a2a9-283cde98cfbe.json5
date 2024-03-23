@@ -21,7 +21,7 @@
   "store_id": 1,\
   "first_name":"sdfsd",\
   "last_name": "asdfasdf",\
-  "address_id": 1,\
+  "address_id": null,\
   "active":false,\
   "create_date": "2002-11-13"\
 }'

@@ -1,0 +1,69 @@
+{
+  id : "1812fe65-5d43-45c6-9b09-99ab7654dc58",
+  name : "Store",
+  icon : "FOLDER",
+  sortWeight : 11000000,
+  requests : [
+    {
+      id : "60421a69-9c1a-48e8-aa25-73a31a2580a6",
+      name : "Create",
+      method : "POST",
+      url : "{{host}}/store",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name":"sdfsd",\
+  "last_name": "asdfasdf",\
+  "active":false,\
+  "username": "2002-11-13"\
+}'
+      }
+    },
+    {
+      id : "468c406e-ba1b-4bd0-b7e6-1831be8a9731",
+      name : "GetMany",
+      method : "GET",
+      url : "{{host}}/store"
+    },
+    {
+      id : "280bedd1-d3e1-473a-b894-b764529635ee",
+      name : "GetOne",
+      method : "GET",
+      url : "{{host}}/store/1"
+    },
+    {
+      id : "737d4ff0-d2d6-45ad-aee0-d919f64c8721",
+      name : "Update",
+      method : "PUT",
+      url : "{{host}}/store/1",
+      headers : [
+        {
+          key : "Content-Type",
+          value : "application/json"
+        }
+      ],
+      body : {
+        type : "JSON",
+        raw : '{\
+  "first_name":"sdfsd",\
+  "last_name": "asdfasdf",\
+  "active":false,\
+  "username": "2002-11-13",\
+  "address_id": 1\
+}'
+      }
+    },
+    {
+      id : "fc58927a-36e9-4c83-b83b-e30104877115",
+      name : "Delete",
+      method : "DELETE",
+      url : "{{host}}/store/1"
+    }
+  ]
+}

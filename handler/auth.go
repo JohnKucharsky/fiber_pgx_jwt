@@ -141,7 +141,6 @@ func (h *Handler) RefreshAccessToken(c *fiber.Ctx) error {
 			MaxAge:   accessTokenMaxAge * 60,
 			Secure:   false,
 			HTTPOnly: true,
-			Domain:   "localhost",
 		},
 	)
 
@@ -153,7 +152,6 @@ func (h *Handler) RefreshAccessToken(c *fiber.Ctx) error {
 			MaxAge:   accessTokenMaxAge * 60,
 			Secure:   false,
 			HTTPOnly: false,
-			Domain:   "localhost",
 		},
 	)
 

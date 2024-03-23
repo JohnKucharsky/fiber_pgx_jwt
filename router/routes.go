@@ -18,6 +18,7 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	languageStore := store.NewLanguageStore(db)
 	customerStore := store.NewCustomerStore(db)
 	staffStore := store.NewStaffStore(db)
+	storeStore := store.NewStoreStore(db)
 
 	h := handler.NewHandler(
 		us,
@@ -29,6 +30,7 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 		languageStore,
 		customerStore,
 		staffStore,
+		storeStore,
 	)
 
 	v1 := r.Group("/api")
@@ -113,4 +115,13 @@ func Register(r *fiber.App, db *pgxpool.Pool, redis *redis.Client) {
 	staff.Put("/:id", h.DeserializeUser, h.UpdateStaff)
 	staff.Delete("/:id", h.DeserializeUser, h.DeleteStaff)
 	// end staff
+
+	// storeRoute
+	storeRoute := v1.Group("/store")
+	storeRoute.Post("/", h.DeserializeUser, h.CreateStore)
+	storeRoute.Get("/", h.GetStores)
+	storeRoute.Get("/:id", h.GetOneStore)
+	storeRoute.Put("/:id", h.DeserializeUser, h.UpdateStore)
+	storeRoute.Delete("/:id", h.DeserializeUser, h.DeleteStore)
+	// end storeRoute
 }

@@ -56,7 +56,7 @@
         type : "JSON",
         raw : '{\
     "email": "me@mail.com",\
-    "password": "stringst"\
+    "password": "kkkkkkkk"\
 }'
       }
     }
