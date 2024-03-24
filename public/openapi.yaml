@@ -15,6 +15,7 @@ tags:
   - name: Language
   - name: Customer
   - name: Staff
+  - name: Store
 paths:
   /auth/sign-up:
     post:
