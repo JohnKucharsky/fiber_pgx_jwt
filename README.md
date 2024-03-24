@@ -3,7 +3,7 @@
 ### [Docs](https://www.kucharsky.ru/api)&nbsp;&nbsp;&nbsp;&nbsp;[Schema](https://www.postgresqltutorial.com/postgresql-getting-started/postgresql-sample-database/)
 
 # Getting started
-### Build the app
+## Build the app
 ```
 docker compose up
 ```
