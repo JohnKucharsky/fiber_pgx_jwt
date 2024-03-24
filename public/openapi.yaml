@@ -752,6 +752,86 @@ paths:
           $ref: '#/components/responses/GenericError'
         '422':
           $ref: '#/components/responses/GenericError'
+  /store:
+    post:
+      tags:
+        - Store
+      summary: Create store
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      operationId: StorePost
+      requestBody:
+        $ref: '#/components/requestBodies/StoreInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneStore'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Store
+      summary: Get all stores
+      operationId: GetManyStores
+      responses:
+        '200':
+          $ref: '#/components/responses/ManyStore'
+        '400':
+          $ref: '#/components/responses/GenericError'
+  /store/{id}:
+    get:
+      tags:
+        - Store
+      description: Get store by id
+      operationId: GetOneStore
+      responses:
+        '200':
+          $ref: '#/components/responses/OneStore'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    put:
+      tags:
+        - Store
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      description: Update store
+      operationId: UpdateStore
+      requestBody:
+        $ref: '#/components/requestBodies/StoreInput'
+      responses:
+        '201':
+          $ref: '#/components/responses/OneStore'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
+    delete:
+      tags:
+        - Store
+      security:
+        - access_token: [ ]
+        - Authorization: [ ]
+      description: Delete store
+      operationId: DeleteStore
+      responses:
+        '200':
+          $ref: '#/components/responses/OneStore'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/GenericError'
+        '422':
+          $ref: '#/components/responses/GenericError'
 components:
   securitySchemes:
     access_token:
@@ -773,6 +853,20 @@ components:
       description: |
         Prefix the value with "Authorization" to indicate the custom authorization type
   responses:
+    OneStore:
+      description: Store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Store'
+    ManyStore:
+      description: Store array
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Store'
     OneStaff:
       description: Staff
       content:
@@ -925,7 +1019,7 @@ components:
       description: Unauthorized
       content: { }
     GenericError:
-      description: Unexpected error
+      description: String error
       content: { }
     EmptyOkResponse:
       description: No content
@@ -934,6 +1028,13 @@ components:
           schema:
             type: string
   requestBodies:
+    StoreInput:
+      required: true
+      description: Update and create store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StoreInput'
     StaffInput:
       required: true
       description: Update and create staff
@@ -1005,6 +1106,37 @@ components:
           schema:
             $ref: '#/components/schemas/SignInInput'
   schemas:
+    Store:
+      required:
+        - id
+        - manager
+        - address
+        - updated_at
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        manager:
+          $ref: '#/components/schemas/Staff'
+        address:
+          $ref: '#/components/schemas/Address'
+        updated_at:
+          type: string
+          format: date-time
+          example: 02.02.2022
+    StoreInput:
+      required:
+        - manager_id
+        - address_id
+      type: object
+      properties:
+        address_id:
+          type: integer
+          example: 1
+        manager_id:
+          type: integer
+          example: 1
     Staff:
       required:
         - id
